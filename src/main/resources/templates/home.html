@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/layout}">
+
+<head>
+
+    <title>Home</title>
+
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <!-- Welcome -->
+
+        <div class="panel">
+
+            <h1>Welcome to Spring Security Project</h1>
+
+            <p>
+                Manage your account, products, and system features
+                from this application.
+            </p>
+
+
+            <!-- Guest -->
+
+            <div sec:authorize="!isAuthenticated()">
+
+                <a th:href="@{/login}"
+                   class="btn primary">
+                    Login
+                </a>
+
+                <a th:href="@{/register}"
+                   class="btn secondary">
+                    Register
+                </a>
+
+            </div>
+
+
+            <!-- Authenticated user -->
+
+            <div sec:authorize="isAuthenticated()">
+
+                <p>
+                    Welcome,
+                    <strong th:text="${#authentication.principal.username}">
+                        User
+                    </strong>
+                </p>
+
+
+                <div class="actions">
+
+                    <a th:href="@{/profile}"
+                       class="btn primary">
+                        My Profile
+                    </a>
+
+                    <a th:href="@{/products}"
+                       class="btn secondary">
+                        View Products
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Project Features -->
+
+        <div class="panel"
+             style="margin-top:20px;">
+
+            <h2>Project Features</h2>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <h3>Authentication</h3>
+
+                    <p>
+                        Register, login, logout, email OTP verification,
+                        forgot password, and reset password.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <h3>User Management</h3>
+
+                    <p>
+                        Administrators can manage users, roles,
+                        search users, and view product counts.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <h3>Product Management</h3>
+
+                    <p>
+                        Authenticated users can manage products,
+                        images, prices, descriptions, and user relationships.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <h3>Profile Management</h3>
+
+                    <p>
+                        Update your profile information, change your avatar,
+                        and change your password.
+                    </p>
+
+                    <div sec:authorize="isAuthenticated()"
+                         style="margin-top:15px;">
+
+                        <a th:href="@{/profile}"
+                           class="btn primary">
+                            Open My Profile
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Admin Features -->
+
+        <div class="panel"
+             style="margin-top:20px;"
+             sec:authorize="hasRole('ADMIN')">
+
+            <h2>Administration</h2>
+
+            <p>
+                Manage users and monitor application data.
+            </p>
+
+            <div class="actions">
+
+                <a th:href="@{/dashboard}"
+                   class="btn primary">
+                    Dashboard
+                </a>
+
+                <a th:href="@{/users}"
+                   class="btn secondary">
+                    User Management
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

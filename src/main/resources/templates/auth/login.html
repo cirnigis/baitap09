@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<head>
+
+    <title>Login - Spring Security Project</title>
+
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="auth-page">
+
+        <div class="auth-container">
+
+            <div class="auth-card">
+
+                <!-- Logo / Project title -->
+
+                <div class="auth-header">
+
+                    <div class="auth-logo">
+                        🔐
+                    </div>
+
+                    <h1>Welcome Back</h1>
+
+                    <p>
+                        Sign in to your account to continue
+                    </p>
+
+                </div>
+
+                <!-- Login error -->
+
+                <div th:if="${param.error}"
+                     class="alert error">
+
+                    Invalid username/email or password.
+
+                </div>
+
+                <!-- Logout message -->
+
+                <div th:if="${param.logout}"
+                     class="alert success">
+
+                    You have been logged out successfully.
+
+                </div>
+
+                <!-- Success message -->
+
+                <div th:if="${success}"
+                     class="alert success"
+                     th:text="${success}">
+
+                    Operation completed successfully.
+
+                </div>
+
+                <!-- Login form -->
+
+                <form th:action="@{/login}"
+                      method="post"
+                      class="auth-form">
+
+                    <!-- Username / Email -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username or Email
+                        </label>
+
+                        <input type="text"
+                               id="username"
+                               name="username"
+                               placeholder="Enter your username or email"
+                               autocomplete="username"
+                               required>
+
+                    </div>
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <div class="form-label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a th:href="@{/forgot-password}">
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+                        <div class="password-wrapper">
+
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Enter your password"
+                                   autocomplete="current-password"
+                                   required>
+
+                            <button type="button"
+                                    class="password-toggle"
+                                    onclick="togglePassword()"
+                                    aria-label="Show password">
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Remember me -->
+
+                    <div class="remember-row">
+
+                        <label>
+
+                            <input type="checkbox"
+                                   name="remember-me">
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <!-- Submit -->
+
+                    <button type="submit"
+                            class="login-btn">
+                        Sign In
+                    </button>
+
+                </form>
+
+                <!-- Divider -->
+
+                <div class="auth-divider">
+
+                    <span>OR</span>
+
+                </div>
+
+                <!-- Register -->
+
+                <div class="register-section">
+
+                    <p>
+                        Don't have an account?
+                    </p>
+
+                    <a class="register-btn"
+                       th:href="@{/register}">
+                        Create an account
+                    </a>
+
+                </div>
+
+                <!-- Back home -->
+
+                <div class="back-home">
+
+                    <a th:href="@{/}">
+                        ← Back to Home
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.querySelector(".password-toggle");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            button.textContent = "🙈";
+
+        } else {
+
+            password.type = "password";
+
+            button.textContent = "👁";
+
+        }
+
+    }
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<head>
+
+    <title>My Profile</title>
+
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <h1>My Profile</h1>
+
+
+        <div th:if="${success}"
+             class="alert success"
+             th:text="${success}">
+            Operation completed successfully.
+        </div>
+
+
+        <!-- Profile Information -->
+
+        <div class="panel">
+
+            <h2>Profile Information</h2>
+
+            <form th:action="@{/profile/update}"
+                  th:object="${userDTO}"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="form-grid">
+
+                    <label>Avatar</label>
+
+                    <div>
+
+                        <div th:if="${userDTO.images != null
+                                    and !userDTO.images.isBlank()}">
+
+                            <img th:src="${#strings.substringBefore(
+                                    userDTO.images,
+                                    '|'
+                                 )}"
+                                 alt="Profile avatar"
+                                 class="profile-avatar">
+
+                        </div>
+
+                        <div th:unless="${userDTO.images != null
+                                         and !userDTO.images.isBlank()}"
+                             class="profile-avatar profile-avatar-default">
+
+                            <span
+                                th:text="${userDTO.username != null
+                                    ? #strings.substring(
+                                        userDTO.username,
+                                        0,
+                                        1
+                                      ).toUpperCase()
+                                    : 'U'}">
+                                U
+                            </span>
+
+                        </div>
+
+                        <input type="file"
+                               name="image"
+                               accept="image/*"
+                               style="margin-top:10px;">
+
+                        <div class="field-help">
+                            Select a new image to change your avatar.
+                        </div>
+
+                    </div>
+
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div>
+
+                        <input id="username"
+                               type="text"
+                               th:field="*{username}">
+
+                        <div th:if="${#fields.hasErrors('username')}"
+                             class="field-error"
+                             th:errors="*{username}">
+                            Username error
+                        </div>
+
+                    </div>
+
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <div>
+
+                        <input id="email"
+                               type="email"
+                               th:field="*{email}">
+
+                        <div th:if="${#fields.hasErrors('email')}"
+                             class="field-error"
+                             th:errors="*{email}">
+                            Email error
+                        </div>
+
+                    </div>
+
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <div>
+
+                        <input id="fullName"
+                               type="text"
+                               th:field="*{fullName}">
+
+                    </div>
+
+
+                    <label>
+                        Role
+                    </label>
+
+                    <input type="text"
+                           th:value="${userDTO.roleName}"
+                           readonly>
+
+
+                    <label>
+                        Products
+                    </label>
+
+                    <input type="text"
+                           th:value="${userDTO.productCount}"
+                           readonly>
+
+                </div>
+
+
+                <div th:if="${#fields.hasGlobalErrors()}"
+                     class="alert error"
+                     style="margin-top:20px;">
+
+                    <div th:each="error : ${#fields.globalErrors()}"
+                         th:text="${error.defaultMessage}">
+                        Profile error
+                    </div>
+
+                </div>
+
+
+                <div style="margin-top:20px;">
+
+                    <button type="submit"
+                            class="btn primary">
+                        Save Profile
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- Change Password -->
+
+        <div class="panel"
+             style="margin-top:20px;">
+
+            <h2>Change Password</h2>
+
+            <p>
+                Update your password to keep your account secure.
+            </p>
+
+            <form th:action="@{/profile/change-password}"
+                  th:object="${changePasswordDTO}"
+                  method="post">
+
+                <div th:if="${#fields.hasGlobalErrors()}"
+                     class="alert error">
+
+                    <div th:each="error : ${#fields.globalErrors()}"
+                         th:text="${error.defaultMessage}">
+                        Password error
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <label for="currentPassword">
+                        Current Password
+                    </label>
+
+                    <div>
+
+                        <input id="currentPassword"
+                               type="password"
+                               th:field="*{currentPassword}">
+
+                        <div th:if="${#fields.hasErrors('currentPassword')}"
+                             class="field-error"
+                             th:errors="*{currentPassword}">
+                            Current password error
+                        </div>
+
+                    </div>
+
+
+                    <label for="newPassword">
+                        New Password
+                    </label>
+
+                    <div>
+
+                        <input id="newPassword"
+                               type="password"
+                               th:field="*{newPassword}">
+
+                        <div th:if="${#fields.hasErrors('newPassword')}"
+                             class="field-error"
+                             th:errors="*{newPassword}">
+                            New password error
+                        </div>
+
+                    </div>
+
+
+                    <label for="confirmPassword">
+                        Confirm New Password
+                    </label>
+
+                    <div>
+
+                        <input id="confirmPassword"
+                               type="password"
+                               th:field="*{confirmPassword}">
+
+                        <div th:if="${#fields.hasErrors('confirmPassword')}"
+                             class="field-error"
+                             th:errors="*{confirmPassword}">
+                            Confirm password error
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div style="margin-top:20px;">
+
+                    <button type="submit"
+                            class="btn primary">
+                        Change Password
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

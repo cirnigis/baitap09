@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title layout:title-pattern="$CONTENT_TITLE - Spring Security Project">
+        Spring Security Project
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}">
+
+</head>
+
+<body>
+
+<div th:replace="~{layout/fragments/header :: header}"></div>
+
+
+<main>
+
+    <div layout:fragment="content">
+
+        Page content
+
+    </div>
+
+</main>
+
+
+<div th:replace="~{layout/fragments/footer :: footer}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<head>
+
+    <title th:text="${mode == 'create'
+        ? 'Create User'
+        : 'Edit User'}">
+        User Form
+    </title>
+
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1 th:text="${mode == 'create'
+                ? 'Create User'
+                : 'Edit User'}">
+                User Form
+            </h1>
+
+            <a class="btn secondary"
+               th:href="@{/users}">
+                Back
+            </a>
+
+        </div>
+
+        <div class="panel">
+
+            <!-- Create form -->
+
+            <form th:if="${mode == 'create'}"
+                  th:object="${userDTO}"
+                  th:action="@{/users/create}"
+                  method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <!-- Global errors -->
+
+                <div th:if="${#fields.hasGlobalErrors()}"
+                     class="alert error">
+
+                    <div th:each="error : ${#fields.globalErrors()}"
+                         th:text="${error}">
+                    </div>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Username -->
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div>
+
+                        <input id="username"
+                               type="text"
+                               th:field="*{username}"
+                               placeholder="Enter username">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('username')}"
+                             th:errors="*{username}">
+                        </div>
+
+                    </div>
+
+                    <!-- Email -->
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <div>
+
+                        <input id="email"
+                               type="email"
+                               th:field="*{email}"
+                               placeholder="Enter email">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}">
+                        </div>
+
+                    </div>
+
+                    <!-- Full Name -->
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <div>
+
+                        <input id="fullName"
+                               type="text"
+                               th:field="*{fullName}"
+                               placeholder="Enter full name">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('fullName')}"
+                             th:errors="*{fullName}">
+                        </div>
+
+                    </div>
+
+                    <!-- Role -->
+
+                    <label for="roleName">
+                        Role
+                    </label>
+
+                    <div>
+
+                        <select id="roleName"
+                                th:field="*{roleName}">
+
+                            <option value="ROLE_USER">
+                                USER
+                            </option>
+
+                            <option value="ROLE_ADMIN">
+                                ADMIN
+                            </option>
+
+                        </select>
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('roleName')}"
+                             th:errors="*{roleName}">
+                        </div>
+
+                    </div>
+
+                    <!-- Enabled -->
+
+                    <label for="enabled">
+                        Status
+                    </label>
+
+                    <div>
+
+                        <label>
+                            <input id="enabled"
+                                   type="checkbox"
+                                   th:field="*{enabled}">
+                            Enabled
+                        </label>
+
+                    </div>
+
+                    <!-- Buttons -->
+
+                    <div></div>
+
+                    <div>
+
+                        <button class="btn primary"
+                                type="submit">
+                            Create User
+                        </button>
+
+                        <a class="btn secondary"
+                           th:href="@{/users}">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <p class="field-help">
+                    Default password: <strong>123456</strong>
+                </p>
+
+            </form>
+
+
+            <!-- Edit form -->
+
+            <form th:if="${mode == 'edit'}"
+                  th:object="${userDTO}"
+                  th:action="@{/users/edit/{id}(id=${userDTO.id})}"
+                  method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <!-- Global errors -->
+
+                <div th:if="${#fields.hasGlobalErrors()}"
+                     class="alert error">
+
+                    <div th:each="error : ${#fields.globalErrors()}"
+                         th:text="${error}">
+                    </div>
+
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- Username -->
+
+                    <label for="editUsername">
+                        Username
+                    </label>
+
+                    <div>
+
+                        <input id="editUsername"
+                               type="text"
+                               th:field="*{username}"
+                               placeholder="Enter username">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('username')}"
+                             th:errors="*{username}">
+                        </div>
+
+                    </div>
+
+                    <!-- Email -->
+
+                    <label for="editEmail">
+                        Email
+                    </label>
+
+                    <div>
+
+                        <input id="editEmail"
+                               type="email"
+                               th:field="*{email}"
+                               placeholder="Enter email">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}">
+                        </div>
+
+                    </div>
+
+                    <!-- Full Name -->
+
+                    <label for="editFullName">
+                        Full Name
+                    </label>
+
+                    <div>
+
+                        <input id="editFullName"
+                               type="text"
+                               th:field="*{fullName}"
+                               placeholder="Enter full name">
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('fullName')}"
+                             th:errors="*{fullName}">
+                        </div>
+
+                    </div>
+
+                    <!-- Role -->
+
+                    <label for="editRoleName">
+                        Role
+                    </label>
+
+                    <div>
+
+                        <select id="editRoleName"
+                                th:field="*{roleName}">
+
+                            <option value="ROLE_USER">
+                                USER
+                            </option>
+
+                            <option value="ROLE_ADMIN">
+                                ADMIN
+                            </option>
+
+                        </select>
+
+                        <div class="field-error"
+                             th:if="${#fields.hasErrors('roleName')}"
+                             th:errors="*{roleName}">
+                        </div>
+
+                    </div>
+
+                    <!-- Enabled -->
+
+                    <label for="editEnabled">
+                        Status
+                    </label>
+
+                    <div>
+
+                        <label>
+                            <input id="editEnabled"
+                                   type="checkbox"
+                                   th:field="*{enabled}">
+                            Enabled
+                        </label>
+
+                    </div>
+
+                    <!-- Buttons -->
+
+                    <div></div>
+
+                    <div>
+
+                        <button class="btn primary"
+                                type="submit">
+                            Update User
+                        </button>
+
+                        <a class="btn secondary"
+                           th:href="@{/users}">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
